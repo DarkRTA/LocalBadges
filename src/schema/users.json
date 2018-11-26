@@ -1,0 +1,58 @@
+{
+    "title": "Users",
+    "type": "array",
+	"format": "tabs",
+	"items": {
+		"type": "object",
+		"title": "User",
+		"required": ["nick", "badges"],
+		"headerTemplate": "{{ self.nick }}\u200b",
+		"additionalProperties": false,
+		"properties": {
+			"nick": {
+				"type": "string",
+				"title": "Username"
+			},
+			"badges": {
+				"type": "array",
+				"title": "Badges",
+				"items": {
+					"type": "object",
+					"title": "Badge",
+					"headerTemplate": "{{ self.title }}\u200b",
+					"additionalProperties": false,
+					"required": ["title", "color", "image", "slot"],
+					"defaultProperties": ["title", "color", "image", "slot"],
+					"properties": {
+						"title": {
+							"type": "string",
+							"title": "Name",
+							"propertyOrder": 0
+						},
+						"color": {
+							"type": "string",
+							"title": "Color",
+							"propertyOrder": 10
+						},
+						"image": {
+							"type": "string",
+							"title": "Image URL",
+							"propertyOrder": 20
+						},
+						"slot": {
+							"type": "integer",
+							"title": "Slot",
+							"propertyOrder": 30
+						},
+						"no_invert": {
+							"type": "boolean",
+							"format": "checkbox",
+							"title": "No Invert",
+							"propertyOrder": 40
+						}
+					}
+				}
+			}
+		}
+	}
+}

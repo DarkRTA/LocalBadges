@@ -1,0 +1,62 @@
+{
+	"title": "Badges",
+	"type": "array",
+	"format": "tabs",
+	"items": {
+		"type": "object",
+		"title": "Badge",
+		"headerTemplate": "{{ self.title }}\u200B",
+		"required": ["title", "color", "image", "slot", "users"],
+		"defaultProperties": ["title", "color", "image", "slot", "users"],
+		"additionalProperties": false,
+		"properties": {
+			"title": {
+				"type": "string",
+				"title": "Name",
+				"propertyOrder": 0
+			},
+			"color": {
+				"type": "string",
+				"title": "Color",
+				"propertyOrder": 10
+			},
+			"image": {
+				"type": "string",
+				"title": "Image URL",
+				"propertyOrder": 20
+			},
+			"slot": {
+				"type": "integer",
+				"title": "Slot",
+				"propertyOrder": 30
+			},
+			"no_invert": {
+				"type": "boolean",
+				"format": "checkbox",
+				"title": "No Invert",
+				"propertyOrder": 50
+
+			},
+			"replaces": {
+				"type": "string",
+				"title": "Replaces",
+				"propertyOrder": 60
+			},
+			"id": {
+				"type": "string",
+				"title": "ID",
+				"propertyOrder": 70
+			},
+			"users": {
+				"type": "array",
+				"format": "table",
+				"title": "Users",
+				"propertyOrder": 80,
+				"items": {
+					"type": "string",
+					"title": "User"
+				}
+			}
+		}
+	}
+}
