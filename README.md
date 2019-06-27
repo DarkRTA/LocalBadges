@@ -1,5 +1,10 @@
 FFZ addon for assigning badges to users locally.
 
+# **BIG NOTE**
+
+This does not work properly with ffz's profiles. Do not bug me or FFZ 
+developers about this. I will fix this when I get the chance to.
+
 # Features
 
 - Clientside badges
