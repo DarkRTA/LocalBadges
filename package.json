@@ -1,7 +1,7 @@
 {
   "name": "localbadges",
   "fullName": "localbadges",
-  "version": "v0.1.0",
+  "version": "v0.1.1",
   "scripts": {
     "watch": "webpack --config webpack.config.js --watch",
     "build": "webpack --config webpack.config.js"

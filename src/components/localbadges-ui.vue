@@ -67,6 +67,7 @@ JSONEditor.defaults.themes.localbadges = JSONEditor.AbstractTheme.extend({
 		var el = document.createElement('input');
 		el.setAttribute('type',type);
 		el.classList.add("tw-input");
+		el.classList.add("tw-font-size-6");
 		el.classList.add("tw-pd-x-1");
 		el.classList.add("tw-pd-y-05");
 		el.classList.add("tw-border-radius-medium");
@@ -129,7 +130,7 @@ JSONEditor.defaults.themes.localbadges = JSONEditor.AbstractTheme.extend({
 		el.id = tabId;
 		el.style = el.style || {};
 		this.applyStyles(el,{
-			border: '1px solid #6441a4',
+			border: '1px solid var(--color-twitch-purple-8)',
 			borderWidth: '1px 0 1px 1px',
 			marginBottom: '-1px',
 			textAlign: 'center',
@@ -147,7 +148,7 @@ JSONEditor.defaults.themes.localbadges = JSONEditor.AbstractTheme.extend({
 		el.style = el.style || {};
 		this.applyStyles(el,{
 			float: 'left',
-			border: '1px solid #6441a4',
+			border: '1px solid var(--color-twitch-purple-8)',
 			borderWidth: '1px 1px 1px 1px',
 			textAlign: 'center',
 			marginLeft: '-1px',
@@ -179,7 +180,7 @@ JSONEditor.defaults.themes.localbadges = JSONEditor.AbstractTheme.extend({
 	},
 	markTabActive: function(row) {
 		this.applyStyles(row.tab,{
-			background: '#6441a4',
+			background: 'var(--color-twitch-purple-8)',
 			color: '#fff',
 		});
 		if(typeof row.rowPane !== 'undefined'){
