@@ -61,27 +61,27 @@ class LocalBadges extends FrankerFaceZ.utilities.addon.Addon {
 			},
 		}, false);
 
-		this.load_badges();
+		this.loadBadges();
 
-		this.on("settings:changed:localbadges.badges", this.reload_badges, this);
-		this.on("settings:changed:localbadges.users", this.reload_badges, this);
+		this.on("settings:changed:localbadges.badges", this.reloadBadges, this);
+		this.on("settings:changed:localbadges.users", this.reloadBadges, this);
 
 		this.log.info('Local Badges initialized successfully');
 	}
 
-	reload_badges() {
-		this.unload_badges();
-		this.load_badges();
+	reloadBadges() {
+		this.unloadBadges();
+		this.loadBadges();
 	}
 
-	add_badge(user, provider, id, data) {
+	addBadge(user, provider, id, data) {
 		this.chat.getUser(undefined, user).addBadge(provider, id, data);
 		this.badge_list.push({id, user, provider});
 	}
 
-	unload_badges() {
+	unloadBadges() {
 		for (let i of this.badge_ids) {
-			//ffz does not expose an api for this so we
+			//ffz does not expose an api for this so we delete it directly
 			delete this.badges.badges[i];
 		}
 		//reqiured since we modified the badge list
@@ -96,17 +96,17 @@ class LocalBadges extends FrankerFaceZ.utilities.addon.Addon {
 		this.badge_list = [];
 	}
 
-	load_badges() {
+	loadBadges() {
 
 		//badges
 		let badges = JSON.parse(this.settings.main_context.get('localbadges.badges'));
 		for (let badge of badges) {
-			this.parse_badge_data(badge, false);
+			this.parseBadgeData(badge, false);
 
 			this.badge_ids.push(badge.id);
 			if (badge.users != undefined) {
 				for (var user of badge.users) {
-					this.add_badge(user, 'localbadges', badge.id);
+					this.addBadge(user, 'localbadges', badge.id);
 				}
 				delete badge.users;
 			}
@@ -122,14 +122,14 @@ class LocalBadges extends FrankerFaceZ.utilities.addon.Addon {
 		for (var user of users) {
 			for (var badge of user.badges) {	
 				let uid = this.badge_uid++;
-				this.parse_badge_data(badge, true);
-				this.add_badge(user.nick, 'localbadges' + uid, badge.id, badge);
+				this.parseBadgeData(badge, true);
+				this.addBadge(user.nick, 'localbadges' + uid, badge.id, badge);
 			}
 		}
 	}
 
 	//parses the badge data and edits it in place
-	parse_badge_data(data, user) {
+	parseBadgeData(data, user) {
 		if (user) {
 			data.id = "addon-localbadges.user"
 		} else {
