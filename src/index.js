@@ -1,3 +1,6 @@
+const DEFAULT_BADGES = '[{"title":"Example Badge","color":"#6441a4","image":"https://darkrta.github.io/LocalBadges/res/subscriber.svg","slot":9,"users":["kappa","twitch"]}]'
+const DEFAULT_USERS = '[{"nick":"darkrta","badges":[{"title":"LocalBadges Developer","color":"#3f3f3f","image":"https://darkrta.github.io/LocalBadges/res/addon-badge.png","slot":12}]}]'
+
 class LocalBadges extends FrankerFaceZ.utilities.addon.Addon {
 	constructor(...args) {
 		super(...args);
@@ -19,29 +22,25 @@ class LocalBadges extends FrankerFaceZ.utilities.addon.Addon {
 		this.vue.component("localbadges-ui", require('./components/localbadges-ui.vue').default);
 
 		//load the settings
-		this.settings.add('localbadges.badges', {
-			default: '[{"title":"Example Badge","color":"#6441a4","image":"https://theessenceofdarkness.github.io/LocalBadges/res/subscriber.svg","slot":9,"users":["kappa","twitch"]}]',
-
-			ui: {
-				path: 'Add-Ons > Local Badges > Custom Badges',
-				title: 'Custom Badges',
-				description: 'Define your custom badges here',
-				component: 'localbadges-ui',
-				schema: require("./schema/badges.json"),
-			}
+		this.settings.addUI('localbadges.badges', {
+			default: DEFAULT_BADGES,
+			key: 'localbadges.badges',
+			path: 'Add-Ons > Local Badges > Custom Badges',
+			title: 'Custom Badges',
+			description: 'Define your custom badges here',
+			component: 'localbadges-ui',
+			schema: require("./schema/badges.json"),
 		});
 
-		this.settings.add('localbadges.users', {
-			default: '[{"nick":"theessenceofdarkness","badges":[{"title":"LocalBadges Developer","color":"#5c9bfe","image":"https://theessenceofdarkness.github.io/LocalBadges/res/devbadge.png","slot":12}]}]',
+		this.settings.addUI('localbadges.users', {
+			default: DEFAULT_USERS,
 
-			ui: {
-				path: 'Add-Ons > Local Badges > User Specific Badges',
-				title: 'User Specific Badges',
-				description: 'Define badges that are specific to users here. Note: This is a hack so expect some bugs.',
-
-				component: 'localbadges-ui',
-				schema: require("./schema/users.json"),
-			} 
+			key: 'localbadges.users',
+			path: 'Add-Ons > Local Badges > User Specific Badges',
+			title: 'User Specific Badges',
+			description: 'Define badges that are specific to users here. Note: This is a hack so expect some bugs.',
+			component: 'localbadges-ui',
+			schema: require("./schema/users.json"),
 		});
 
 		// this css hack is only needed to work around some limitations of ffz
@@ -53,25 +52,26 @@ class LocalBadges extends FrankerFaceZ.utilities.addon.Addon {
 		//for user specific badges
 		this.badges.loadBadgeData("addon-localbadges.user", {
 			title: "User Specific Badges",
-			color: "#5c9bfe",
+			color: "#3f3f3f",
 			slot: 0,
-			image: "https://theessenceofdarkness.github.io/LocalBadges/res/devbadge.png",
+			image: "https://darkrta.github.io/LocalBadges/res/addon-icon.png",
 			urls: {
-				"1": "https://theessenceofdarkness.github.io/LocalBadges/res/devbadge.png",
+				"1": "https://darkrta.github.io/LocalBadges/res/addon-icon.png",
 			},
 		}, false);
 
 		this.loadBadges();
 
-		this.on("settings:changed:localbadges.badges", this.reloadBadges, this);
-		this.on("settings:changed:localbadges.users", this.reloadBadges, this);
+		this.settings.provider.on("changed", this.onSettingChange, this);
 
 		this.log.info('Local Badges initialized successfully');
 	}
 
-	reloadBadges() {
-		this.unloadBadges();
-		this.loadBadges();
+	onSettingChange(k, v, deleted) {
+		if (k === "localbadges.badges" || k === "localbadges.users") {
+			this.unloadBadges();
+			this.loadBadges();
+		}
 	}
 
 	addBadge(user, provider, id, data) {
@@ -99,7 +99,7 @@ class LocalBadges extends FrankerFaceZ.utilities.addon.Addon {
 	loadBadges() {
 
 		//badges
-		let badges = JSON.parse(this.settings.main_context.get('localbadges.badges'));
+		let badges = JSON.parse(this.settings.provider.get('localbadges.badges', DEFAULT_BADGES));
 		for (let badge of badges) {
 			this.parseBadgeData(badge, false);
 
@@ -118,7 +118,7 @@ class LocalBadges extends FrankerFaceZ.utilities.addon.Addon {
 
 		//user specific badges
 
-		let users = JSON.parse(this.settings.main_context.get('localbadges.users'));
+		let users = JSON.parse(this.settings.provider.get('localbadges.users', DEFAULT_USERS));
 		for (var user of users) {
 			for (var badge of user.badges) {	
 				let uid = this.badge_uid++;
@@ -148,11 +148,12 @@ class LocalBadges extends FrankerFaceZ.utilities.addon.Addon {
 
 LocalBadges.register({
 	id:   "dark.localbadges",
-    name: "Local Badges",
+	name: "Local Badges",
 	description: "Allows you add badges to users locally.",
 	settings: "add_ons.local_badges",
-    version: "2019-06-08",
-    author: "Dark",
+	icon: "https://darkrta.github.io/LocalBadges/res/addon-icon.png",
+	version: "2020-10-14",
+	author: "Dark",
 });
 
 ffz.resolve("addon.dark.localbadges").enable();

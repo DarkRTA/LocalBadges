@@ -130,7 +130,7 @@ JSONEditor.defaults.themes.localbadges = JSONEditor.AbstractTheme.extend({
 		el.id = tabId;
 		el.style = el.style || {};
 		this.applyStyles(el,{
-			border: '1px solid var(--color-twitch-purple-8)',
+			border: '1px solid var(--color-background-button-primary-hover)',
 			borderWidth: '1px 0 1px 1px',
 			marginBottom: '-1px',
 			textAlign: 'center',
@@ -148,7 +148,7 @@ JSONEditor.defaults.themes.localbadges = JSONEditor.AbstractTheme.extend({
 		el.style = el.style || {};
 		this.applyStyles(el,{
 			float: 'left',
-			border: '1px solid var(--color-twitch-purple-8)',
+			border: '1px solid var(--color-background-button-primary-hover)',
 			borderWidth: '1px 1px 1px 1px',
 			textAlign: 'center',
 			marginLeft: '-1px',
@@ -180,7 +180,7 @@ JSONEditor.defaults.themes.localbadges = JSONEditor.AbstractTheme.extend({
 	},
 	markTabActive: function(row) {
 		this.applyStyles(row.tab,{
-			background: 'var(--color-twitch-purple-8)',
+			background: 'var(--color-background-button-primary-hover)',
 			color: '#fff',
 		});
 		if(typeof row.rowPane !== 'undefined'){
@@ -275,7 +275,7 @@ JSONEditor.defaults.themes.localbadges = JSONEditor.AbstractTheme.extend({
 });
 
 export default {
-	mixins: [ffz.resolve('main_menu').Mixin],
+	mixins: [ffz.resolve('main_menu').ProviderMixin],
 	props: ['item', 'context', ''],
 	
 	data() {
@@ -300,7 +300,7 @@ export default {
 		});
 		
 		this.editor.on('change', () => {
-			this.set(JSON.stringify(this.editor.getValue()));
+				this.set(JSON.stringify(this.editor.getValue()));
 		});
 	},
 
