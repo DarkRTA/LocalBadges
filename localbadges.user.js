@@ -19,7 +19,7 @@
 function load_localbadges(attempts) {
     if (window.FrankerFaceZ !== undefined) {
         var script = document.createElement('script');
-        script.src = "https://theessenceofdarkness.github.io/LocalBadges/dist/localbadges.js";
+        script.src = "https://darkrta.github.io/LocalBadges/dist/localbadges.js";
 	
         document.head.appendChild(script)
     } else {
